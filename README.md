@@ -162,7 +162,7 @@ David Ovalle
 ## Forked from:
 Joann Vuong
 
-## Author for this Part for:
+## Author for this Part 4:
 Mtsweni Gift - [Github](https://github.com/mgmtsweni)
 
 ## License
