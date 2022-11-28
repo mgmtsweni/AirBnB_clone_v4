@@ -9,8 +9,11 @@ $( document ).ready(function () {
     $('.amenities h4').text(list.join(', '));
   });
 
-  $.get('http://0.0.0.0:5001/api/v1/status/', function (data, checkStatus) {
-    if (checkStatus === 'success') {
+  $.ajax({
+    type: 'GET',
+    url: 'http://0.0.0.0:5001/api/v1/status/',
+    dataType: 'json',
+    success: function (data) {
       if (data.status === 'OK') {
         $('#api_status').addClass('available');
       } else {

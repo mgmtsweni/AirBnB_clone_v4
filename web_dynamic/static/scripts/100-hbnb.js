@@ -1,14 +1,41 @@
 $( document ).ready(function () {
-  let list = {};
-  $('input[type=checkbox]').change (function () {
+  /*****************************************************
+    Amenity checkbox
+   *****************************************************/
+  let amen_list = {};
+  $('.amenities input[type=checkbox]').change (function () {
       if ($(this).is(':checked')) {
-        list[$(this).data('id')] = $(this).data('name');
+        amen_list[$(this).data('id')] = $(this).data('name');
       } else {
-        delete list[$(this).data('id')]
+        delete amen_list[$(this).data('id')]
       }
-    $('.amenities h4').text(list.join(', '));
+    $('.amenities h4').text(amen_list.join(', '));
   });
-
+  /*****************************************************
+    city checkbox
+   *****************************************************/
+  let city_list = {};
+  $('.locations input[type=checkbox]').change (function () {
+      if ($(this).is(':checked')) {
+        city_list[$(this).data('id')] = $(this).data('name');
+      } else {
+        delete city_list[$(this).data('id')]
+      }
+    $('.locations h4').text(city_list.join(', '));
+  });
+  /*****************************************************
+    State checkbox
+   *****************************************************/
+    let state_list = {};
+    $('.locations input[type=checkbox]').change (function () {
+        if ($(this).is(':checked')) {
+          state_list[$(this).data('id')] = $(this).data('name');
+        } else {
+          delete state_list[$(this).data('id')]
+        }
+      $('.locations h4').text(state_list.join(', '));
+    });
+  
   $.ajax({
     type: 'GET',
     url: 'http://0.0.0.0:5001/api/v1/status/',
@@ -55,7 +82,7 @@ $( document ).ready(function () {
     $.ajax({
       type: 'POST',
       url: 'http://0.0.0.0:5001/api/v1/places_search',
-      data: JSON.stringify({'amenities': Object.keys(list)}),
+      data: JSON.stringify({'amenities': Object.keys(amen_list), 'cities': Object.key(city_list), 'state': Object.key(state_list)}),
       dataType: 'json',
       contentType: 'application/json',
       success: function (data) {

@@ -9,8 +9,11 @@ $( document ).ready(function () {
     $('.amenities h4').text(list.join(', '));
   });
 
-  $.get('http://0.0.0.0:5001/api/v1//places_search/', function (data, checkStatus) {
-    if (checkStatus === 'success') {
+  $.ajax({
+    type: 'GET',
+    url: 'http://0.0.0.0:5001/api/v1/status/',
+    dataType: 'json',
+    success: function (data) {
       if (data.status === 'OK') {
         $('#api_status').addClass('available');
       } else {
@@ -18,6 +21,7 @@ $( document ).ready(function () {
       }
     }
   });
+
   $.ajex({
     type: 'POST',
     url: "http://0.0.0.0:5001/api/v1/places_search",
@@ -26,7 +30,23 @@ $( document ).ready(function () {
     success: function (data) {
       for (let i = 0; i < data.length; i++) {
         let place = data[i];
-        $('.places ').append('<article><h2>' + place.name + '</h2><div class="price_by_night"><p>$' + place.price_by_night + '</p></div><div class="information"><div class="max_guest"><div class="guest_image"></div><p>' + place.max_guest + '</p></div><div class="number_rooms"><div class="bed_image"></div><p>' + place.number_rooms + '</p></div><div class="number_bathrooms"><div class="bath_image"></div><p>' + place.number_bathrooms + '</p></div></div><div class="description"><p>' + place.description + '</p></div></article>');
+        $('.places').append(
+        '<article>' +
+        '<div class="title_box">' +
+          '<h2>' + place[i].name + '</h2>' +
+          '<div class="price_by_night">$' + place[i].price_by_night + '</div>' +
+        '</div>' +
+        '<div class="information">' +
+          '<div class="max_guest">' + place[i].max_guest + ' Guest</div>' +
+                '<div class="number_rooms">' + place[i].number_rooms + ' Bedroom</div>' +
+                '<div class="number_bathrooms">' + place[i].number_bathrooms + ' Bathroom</div>' +
+        '</div>' +
+        '<div class="user">' +
+        '<b>Owner:</b>' + place.user.first_name + place.user.last_name +
+        '</div>' +
+        '<div class="description">' + place.description +
+        '</div>' +
+      '</article>');
       }
     }
   });
